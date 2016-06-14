@@ -1,0 +1,6 @@
+https://github-windows.s3.amazonaws.com/GitHubSetup.exe
+https://codeload.github.com/miniway/kafka-hadoop-consumer/zip/master
+https://codeload.github.com/linkedin/camus/zip/master
+https://codeload.github.com/confluentinc/schema-registry/zip/master
+https://codeload.github.com/confluentinc/kafka-connect-hdfs/zip/master
+http://mirror.fibergrid.in/apache/spark/spark-1.6.1/spark-1.6.1-bin-hadoop2.6.tgz
