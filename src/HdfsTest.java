@@ -10,9 +10,10 @@ import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.Progressable;
 
 public class HdfsTest {
-
-    	public static void write( String abc) {
-    		final String line = abc;
+	
+    	public void write( String fileName, String abc) {
+    		final String line= abc;
+    		final String fileLoc = fileName;
         try {
             UserGroupInformation ugi
                 = UserGroupInformation.createRemoteUser("root");
@@ -21,17 +22,20 @@ public class HdfsTest {
             	
                 public Void run() throws Exception {
                 	
+                	String finalAppend=line;
                     Configuration conf = new Configuration();
-                    conf.set("fs.defaultFS", "hdfs://Hadoop2.synechron.com:8020/user/hduser");
+                    conf.set("fs.defaultFS", "hdfs://Hadoop2.synechron.com:8020/user/hduser/");
                     conf.set("hadoop.job.ugi", "root");
 
-                    Path path = new Path("hdfs://Hadoop2.synechron.com:8020/user/hduser/HDFSWritetest");
+                    Path path = new Path("hdfs://Hadoop2.synechron.com:8020/user/hduser/" + fileLoc);
                     
                     FileSystem fs = FileSystem.get(conf);
+                    finalAppend = finalAppend.replaceFirst(".*\\n", "");
+                	finalAppend = finalAppend.replaceAll("\\n$", "");
                     if(!fs.isFile(path)){
-                    	fs.createNewFile(new Path("/user/hduser/HDFSWritetest"));	
-                    };
-                    
+                    	
+                    	fs.createNewFile(path);
+                    }
                     
                     
                     OutputStream os = fs.append( path, 100,
@@ -40,7 +44,8 @@ public class HdfsTest {
                     	            System.out.println("...bytes written");
                     	        } });
                     	BufferedWriter br = new BufferedWriter( new OutputStreamWriter( os, "UTF-8" ) );
-                    	br.append(line + '\n');
+                    	System.out.println("Line to be added to hdfs file: " + finalAppend);
+                    	br.append(finalAppend + '\n');
                     	br.close();
                     	fs.close();
 /*
