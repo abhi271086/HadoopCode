@@ -1,18 +1,21 @@
-#!/bin/ksh
+#!/bin/bash
 cd /root/StockPocData/scripts/
 
 csvCount=`ls -l *.csv | wc -l`
+todayDate=`date +%Y%m%d`
 
-if [ $csvCount > 0 ] 
+if [ $csvCount ] 
 	then
-	`rm -f *.csv`
+	`rm -f *.csv valid_stocks`
 fi
 
-wget 'http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download' -O stocks.csv
+wget 'http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download' -O `echo $todayDate`_stocks.csv
 
-awk -F'","|^"|"$'  '{if ($5 > 0 && NR>1) print $2}' stocks.csv > `date +%Y%m%d.csv`
+awk -F'","|^"|"$'  '{if ($5 > 0 && NR>1) print $2}' `echo $todayDate`_stocks.csv > `echo $todayDate`_validStocks.csv
+cp `echo $todayDate`_validStocks.csv valid_stocks
 
-rm -f stocks.csv
+hdfs dfs -rm valid_stocks
+hdfs dfs -put `echo $todayDate`_validStocks.csv /user/hduser/StockPOCData/StockTickerList/archive
+hdfs dfs -put valid_stocks /user/hduser/StockPOCData/StockTickerList/
 
-hadoop dfs -mv /user/hduser/StockPOCData/StockTickerList/*.csv /user/hduser/StockPOCData/StockTickerList/archive/
-hadoop dfs -put *.csv /user/hduser/StockPOCData/StockTickerList/
+rm -f *.csv
