@@ -1,0 +1,11 @@
+Counts number of lines in all the hdfs files present in a foler:
+hadoop fs -cat /user/hduser/StockPOCData/intraDayStockData/20160701_* | wc -l 
+
+Write content of abcd file on local file system to hdfs file with name mergedFile3:
+hadoop fs -appendToFile - /user/hduser/StockPOCData/intraDayStockData/mergedFile3 < abcd
+
+Write content of all the hdfs files with name starting from 20160701 to a hdfs file named mergedFile2:
+hadoop fs -cat /user/hduser/StockPOCData/intraDayStockData/20160701_*  | hadoop fs -appendToFile - /user/hduser/StockPOCData/intraDayStockData/mergedFile2
+
+Write content of all the hdfs files present in source folder to a LOCAL file by the name of test:
+hadoop fs -getmerge /user/hdfs/source/*/ /tmp/test
