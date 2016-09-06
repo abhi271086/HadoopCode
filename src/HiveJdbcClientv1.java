@@ -20,7 +20,7 @@ public class HiveJdbcClientv1 {
     //replace "hive" here with the name of the user the queries should run as
     //Connection con = DriverManager.getConnection("jdbc:hive2://synazurehadoop-mn0.centralus.cloudapp.azure.com:10000/default", "hive", "hive_password");
       //Connection con = DriverManager.getConnection("jdbc:hive2://172.20.214.12:10000/default", "hive", "hive_password");
-      Connection con = DriverManager.getConnection("jdbc:hive2://172.20.214.12:10000/stock_data", "hive", "hive_password");
+      Connection con = DriverManager.getConnection("jdbc:hive2://172.17.50.18:10000/default", "hive", "hive_password");
       
       Statement stmt = con.createStatement();
     //String tableName = "testHiveDriverTable";
